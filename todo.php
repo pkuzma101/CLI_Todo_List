@@ -2,23 +2,34 @@
 
 // Create array to hold list of todo items
 $items = array();
-
-// The loop!
-do {
-    // Iterate through list items
-    foreach ($items as $key => $item) {
-        // Display each item and a newline
-    	$key++;
-        echo "[{$key}] {$item}\n";
+ //List array items formatted for CLI
+ function listItems($list) {
+    $string = "";
+    foreach($list as $key => $item) {
+        $key++;
+        $string .="[{$key}] {$item}" . PHP_EOL;
     }
 
-    // Show the menu options
-    echo '(N)ew item, (R)emove item, (Q)uit : ';
+    return $string;
+ }
 
+ function getInput($upper = false) {
+    $input = trim(fgets(STDIN));
+        if($upper = true) {
+            $input = strtoupper($input);
+        }
+    return $input;
+ }
+// The loop!
+do {
+    // echo the list produced by the function
+    echo listItems($items);
+   	// show the menu options
+    echo "(N)ew item, (R)emove item, (Q)uit : ";	
+    	// Display each item and a newline
+    $input = getInput(true);
     // Get the input from user
-    // Use trim() to remove whitespace and newlines
-    $input = strtoupper(trim(fgets(STDIN)));
-
+    // Use trim() to remove whitespace and newlines and strtoupper to make all letters work
     // Check for actionable input
     if ($input == 'N') {
         // Ask for entry
@@ -30,6 +41,7 @@ do {
         echo 'Enter item number to remove: ';
         // Get array key
         $key = trim(fgets(STDIN));
+        // Decrement the numbers when you remove entries in the to do list
         $key--;
         // Remove from array
         unset($items[$key]);
