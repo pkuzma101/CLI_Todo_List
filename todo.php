@@ -22,7 +22,7 @@ $items = array("let out dalek", "play final fantasy", "eat dinner", "do homework
  }
 
  function sortMenu($items) {
-    echo "(A)-Z, (Z)-A, (O)rder entered, (R)everse order entered: " . PHP_EOL;
+    echo "(A)-Z, (Z)-A, (O)rder entered, (R)everse order entered: ";
         $input = getInput(true);
             if($input == "A") {
                 asort($items);
@@ -38,8 +38,8 @@ $items = array("let out dalek", "play final fantasy", "eat dinner", "do homework
             }
         return $items;
  }
+ do {
 // The loop!
-do {
     // echo the list produced by the function
     echo listItems($items);
    	// show the menu options
@@ -49,47 +49,52 @@ do {
     // Get the input from user
     // Use trim() to remove whitespace and newlines and strtoupper to make all letters work
     // Check for actionable input
-    if ($input == 'N') {
-        // Ask for entry
-        echo 'Enter item: ';
-        // Add entry to list array
-        $newItem = trim(fgets(STDIN));
-        echo "Add this item to (B)eginning or (E)nd of list?";
-        $choice = getInput();
-            if($choice == "B") {
-                array_unshift($items, $newItem); 
-        }
-            else {
-                array_push($items, $newItem);
+    switch($input) {
+
+        case 'N':
+            // Ask for entry
+            echo 'Enter item: ';
+            // Add entry to list array
+            $newItem = trim(fgets(STDIN));
+            echo "Add this item to (B)eginning or (E)nd of list?";
+            $choice = getInput();
+                if($choice == "B") {
+                    array_unshift($items, $newItem); 
             }
-    } elseif ($input == 'R') {
-        // Remove which item?
-        echo 'Enter item number to remove: ';
-        // Get array key
-        $key = trim(fgets(STDIN));
-        // Decrement the numbers when you remove entries in the to do list
-        $key--;
-        // Remove from array
-        unset($items[$key]);
+                else {
+                    array_push($items, $newItem);
+            }
+            break;
+
+        case 'R':
+            // Remove which item?
+            echo 'Enter item number to remove: ';
+            // Get array key
+            $key = trim(fgets(STDIN));
+            // Decrement the numbers when you remove entries in the to do list
+            $key--;
+            // Remove from array
+            unset($items[$key]);
+            break;
+
+        case 'S':
+            $items = sortMenu($items);
+            break;
+
+        case "F": 
+            array_shift($items);
+            break;
+    
+        case "L":
+            array_pop($items);
+        // Exit when input is (Q)uit
+        case 'Q':
+            // Say Goodbye!
+            echo "Goodbye!" . PHP_EOL;
+            // Exit with 0 errors
+            
     }
-    elseif ($input == 'S') {
-        $items = sortMenu($items);
+}while($input != "Q");
 
-    }
-    elseif ($input == "F") {
-        array_shift($items);
-    }
-    elseif ($input == "L") {
-        array_pop($items);
-    }
-// Exit when input is (Q)uit
-} while ($input != 'Q');
-
-// Say Goodbye!
-echo "Goodbye!\n";
-
-// Exit with 0 errors
-exit(0);
-
-
+    exit(0);
 ?>
