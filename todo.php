@@ -59,9 +59,11 @@ $items = array("let out dalek", "play final fantasy", "eat dinner", "do homework
             echo "Add this item to (B)eginning or (E)nd of list?";
             $choice = getInput();
                 if($choice == "B") {
+                    //Move new item to the front of the list
                     array_unshift($items, $newItem); 
             }
                 else {
+                    //Move new item to the back of the list
                     array_push($items, $newItem);
             }
             break;
@@ -77,24 +79,28 @@ $items = array("let out dalek", "play final fantasy", "eat dinner", "do homework
             unset($items[$key]);
             break;
 
+            // Sort the list
         case 'S':
             $items = sortMenu($items);
             break;
 
+            // Removes first item on the list
         case "F": 
             array_shift($items);
             break;
-    
+
+            // Removes last item on the list
         case "L":
             array_pop($items);
+            break;
+
         // Exit when input is (Q)uit
         case 'Q':
             // Say Goodbye!
             echo "Goodbye!" . PHP_EOL;
-            // Exit with 0 errors
             
     }
 }while($input != "Q");
-
+    // Exit with 0 errors
     exit(0);
 ?>
