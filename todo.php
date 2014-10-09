@@ -1,7 +1,7 @@
 <?php
 
 // Create array to hold list of todo items
-$items = array();
+$items = array("let out dog", "read news", "eat dinner", "do homework");
  //List array items formatted for CLI
  function listItems($list) {
     $string = "";
@@ -20,12 +20,30 @@ $items = array();
         }
     return $input;
  }
+
+ function sortMenu($items) {
+    echo "(A)-Z, (Z)-A, (O)rder entered, (R)everse order entered: " . PHP_EOL;
+        $input = getInput(true);
+            if($input == "A") {
+                asort($items);
+            }
+            elseif($input == "Z") {
+                arsort($items);
+            }
+            elseif($input == "O") {
+                ksort($items);
+            }
+            elseif($input == "R") {
+                krsort($items);
+            }
+        return $items;
+ }
 // The loop!
 do {
     // echo the list produced by the function
     echo listItems($items);
    	// show the menu options
-    echo "(N)ew item, (R)emove item, (Q)uit : ";	
+    echo "(N)ew item, (R)emove item, (Q)uit, (S)ort : ";	
     	// Display each item and a newline
     $input = getInput(true);
     // Get the input from user
@@ -45,6 +63,10 @@ do {
         $key--;
         // Remove from array
         unset($items[$key]);
+    }
+    elseif ($input = 'S') {
+        $items = sortMenu($items);
+
     }
 // Exit when input is (Q)uit
 } while ($input != 'Q');
