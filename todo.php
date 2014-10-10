@@ -1,7 +1,8 @@
 <?php
 
 // Create array to hold list of todo items
-$items = array("let out dalek", "play final fantasy", "eat dinner", "do homework");
+$items = array("let out dalek", "eat dinner");
+
  //List array items formatted for CLI
  function listItems($list) {
     $string = "";
@@ -15,7 +16,7 @@ $items = array("let out dalek", "play final fantasy", "eat dinner", "do homework
 
  function getInput($upper = false) {
     $input = trim(fgets(STDIN));
-        if($upper = true) {
+        if($upper == true) {
             $input = strtoupper($input);
         }
     return $input;
@@ -38,12 +39,21 @@ $items = array("let out dalek", "play final fantasy", "eat dinner", "do homework
             }
         return $items;
  }
+
+ function openFile($filename) {
+        $handle = fopen($filename, "r");
+        $contents = fread($handle, filesize($filename));
+        $contentArray = explode("\n", $contents);
+        fclose($handle);
+        return $contentArray;
+ }
+
  do {
 // The loop!
     // echo the list produced by the function
     echo listItems($items);
    	// show the menu options
-    echo "(N)ew item, (R)emove item, (S)ort, (Q)uit  : ";	
+    echo "(N)ew item, (O)pen file, (R)emove item, (S)ort, (Q)uit  : ";	
     	// Display each item and a newline
     $input = getInput(true);
     // Get the input from user
@@ -66,6 +76,14 @@ $items = array("let out dalek", "play final fantasy", "eat dinner", "do homework
                     //Move new item to the back of the list
                     array_push($items, $newItem);
             }
+            break;
+
+        case 'O':
+            echo "Enter name of file to be opened" . PHP_EOL;
+            $name = getInput();
+            echo "Opening $name..." . PHP_EOL;
+                $arrayToAdd = openFile($name);
+                $items = array_merge($items, $arrayToAdd);
             break;
 
         case 'R':
